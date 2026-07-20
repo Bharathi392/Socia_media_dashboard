@@ -59,4 +59,3 @@ social-media-analytics-dashboard/
 ├── server.ps1                        # PowerShell local static web server
 └── README.md                         # Project documentation (this file)
 ```
-"# Socia_media_dashboard" 

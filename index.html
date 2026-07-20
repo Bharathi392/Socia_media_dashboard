@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium social media analytics dashboard for real-time tracking, campaign metrics, and interactive ROI analysis.">
+    <title>OmniAnalytics // Social Media Analytics Dashboard</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Style -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="platform-all">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <span class="brand-mark"><span class="brand-dot"></span></span>
+                    <span class="brand-name">OmniAnalytics</span>
+                </div>
+                <span class="brand-tagline">Signal &amp; reach console</span>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="#overview" class="menu-item active" data-tab="overview">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#content" class="menu-item" data-tab="content">
+                    <i data-lucide="file-text"></i>
+                    <span>Content Performance</span>
+                </a>
+                <a href="#calculator" class="menu-item" data-tab="calculator">
+                    <i data-lucide="calculator"></i>
+                    <span>ROI Calculator</span>
+                </a>
+                <a href="#audience" class="menu-item" data-tab="audience">
+                    <i data-lucide="users"></i>
+                    <span>Audience Demo</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="assets/profile_avatar.png" alt="User Profile" class="avatar" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'">
+                    <div class="user-info">
+                        <span class="user-name">Alex Rivera</span>
+                        <span class="user-role">Growth Marketer</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="header">
+                <div class="header-left">
+                    <span class="page-eyebrow"><span class="eyebrow-dot"></span>On air &mdash; last synced moments ago</span>
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <p class="page-subtitle">Track your multi-platform social media growth and conversion ROI.</p>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Date Filter -->
+                    <div class="date-selector">
+                        <i data-lucide="calendar" class="selector-icon"></i>
+                        <select id="date-range">
+                            <option value="7d">Last 7 Days</option>
+                            <option value="30d" selected>Last 30 Days</option>
+                            <option value="90d">Last 90 Days</option>
+                        </select>
+                    </div>
+
+                    <!-- Sync Button -->
+                    <button class="btn btn-sync" id="btn-sync">
+                        <i data-lucide="refresh-cw" class="icon-sync"></i>
+                        <span>Sync Data</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Platform Selector Filter Tabs -->
+            <div class="platform-tabs-container">
+                <div class="platform-tabs">
+                    <button class="platform-tab active" data-platform="all">
+                        <i data-lucide="globe"></i>
+                        <span>All Platforms</span>
+                    </button>
+                    <button class="platform-tab" data-platform="twitter">
+                        <i data-lucide="twitter"></i>
+                        <span>Twitter / X</span>
+                    </button>
+                    <button class="platform-tab" data-platform="instagram">
+                        <i data-lucide="instagram"></i>
+                        <span>Instagram</span>
+                    </button>
+                    <button class="platform-tab" data-platform="youtube">
+                        <i data-lucide="youtube"></i>
+                        <span>YouTube</span>
+                    </button>
+                    <button class="platform-tab" data-platform="linkedin">
+                        <i data-lucide="linkedin"></i>
+                        <span>LinkedIn</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Page Sections -->
+            <!-- SECTION 1: OVERVIEW & AUDIENCE -->
+            <div id="tab-overview" class="tab-pane active">
+                <!-- KPI Stats Grid -->
+                <section class="kpi-grid">
+                    <!-- KPI 1 -->
+                    <div class="kpi-card" id="kpi-followers">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Total Followers</span>
+                            <div class="kpi-icon-wrapper platform-color-bg">
+                                <i data-lucide="users" class="kpi-icon"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-value-container">
+                            <h2 class="kpi-value" id="val-followers">--</h2>
+                            <span class="kpi-badge positive" id="badge-followers">--</span>
+                        </div>
+                        <div class="kpi-footer">
+                            <span class="kpi-footer-text">vs. previous period</span>
+                            <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+
+                    <!-- KPI 2 -->
+                    <div class="kpi-card" id="kpi-engagement">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Engagement Rate</span>
+                            <div class="kpi-icon-wrapper platform-color-bg">
+                                <i data-lucide="heart" class="kpi-icon"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-value-container">
+                            <h2 class="kpi-value" id="val-engagement">--</h2>
+                            <span class="kpi-badge positive" id="badge-engagement">--</span>
+                        </div>
+                        <div class="kpi-footer">
+                            <span class="kpi-footer-text">vs. previous period</span>
+                            <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+
+                    <!-- KPI 3 -->
+                    <div class="kpi-card" id="kpi-reach">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Total Reach</span>
+                            <div class="kpi-icon-wrapper platform-color-bg">
+                                <i data-lucide="eye" class="kpi-icon"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-value-container">
+                            <h2 class="kpi-value" id="val-reach">--</h2>
+                            <span class="kpi-badge positive" id="badge-reach">--</span>
+                        </div>
+                        <div class="kpi-footer">
+                            <span class="kpi-footer-text">vs. previous period</span>
+                            <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+
+                    <!-- KPI 4 -->
+                    <div class="kpi-card" id="kpi-conversions">
+                        <div class="kpi-header">
+                            <span class="kpi-title">Conversion Revenue</span>
+                            <div class="kpi-icon-wrapper platform-color-bg">
+                                <i data-lucide="dollar-sign" class="kpi-icon"></i>
+                            </div>
+                        </div>
+                        <div class="kpi-value-container">
+                            <h2 class="kpi-value" id="val-conversions">--</h2>
+                            <span class="kpi-badge positive" id="badge-conversions">--</span>
+                        </div>
+                        <div class="kpi-footer">
+                            <span class="kpi-footer-text">vs. previous period</span>
+                            <span class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Charts Grid -->
+                <section class="charts-grid">
+                    <!-- Growth & Engagement Area Chart -->
+                    <div class="chart-card main-chart-wrapper">
+                        <div class="chart-header chart-header-row">
+                            <div>
+                                <h3 class="chart-title">Audience Growth & Engagement</h3>
+                                <p class="chart-subtitle">Follower gain vs daily post engagements</p>
+                            </div>
+                            <span class="live-tag"><span class="eyebrow-dot"></span>Live</span>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Platform Share Donut Chart -->
+                    <div class="chart-card donut-chart-wrapper">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Platform Audience Share</h3>
+                            <p class="chart-subtitle">Breakdown of total follower ecosystem</p>
+                        </div>
+                        <div class="chart-body flex-center">
+                            <canvas id="shareChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Grid with Secondary insights & Quick ROI status -->
+                <section class="secondary-grid">
+                    <!-- Traffic Radar -->
+                    <div class="chart-card radar-chart-wrapper">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Engagement Quality Metrics</h3>
+                            <p class="chart-subtitle">Likes, shares, clicks, and conversion distribution</p>
+                        </div>
+                        <div class="chart-body flex-center">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Campaign Summary widget -->
+                    <div class="summary-card glass-card">
+                        <div class="summary-header">
+                            <h3 class="summary-title">Social Campaign Spotlight</h3>
+                            <span class="campaign-status active">Active Campaign</span>
+                        </div>
+                        <div class="campaign-spotlight-content">
+                            <div class="campaign-media">
+                                <img src="assets/dashboard_card_graphic.png" alt="Campaign Graphic" class="campaign-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80'">
+                                <div class="campaign-overlay">
+                                    <span class="campaign-badge">Summer Launch 2026</span>
+                                </div>
+                            </div>
+                            <div class="campaign-details">
+                                <div class="campaign-meta-row">
+                                    <div class="meta-item">
+                                        <span class="meta-label">Total Spend</span>
+                                        <span class="meta-value">$4,250</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span class="meta-label">Conversions</span>
+                                        <span class="meta-value" id="spotlight-conversions">342</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span class="meta-label">ROI (Est.)</span>
+                                        <span class="meta-value text-emerald" id="spotlight-roi">+214%</span>
+                                    </div>
+                                </div>
+                                <div class="campaign-progress">
+                                    <div class="progress-labels">
+                                        <span>Target Conversion Reach</span>
+                                        <span>85% Achieved</span>
+                                    </div>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION 2: CONTENT PERFORMANCE -->
+            <div id="tab-content" class="tab-pane">
+                <section class="glass-card table-section">
+                    <div class="table-header-controls">
+                        <div class="table-title-box">
+                            <h3 class="card-title">Content Analytics Analyzer</h3>
+                            <p class="card-subtitle">Review recent posts, filter by platform, and sort by key metrics.</p>
+                        </div>
+                        <div class="table-filters">
+                            <div class="search-box">
+                                <i data-lucide="search" class="search-icon"></i>
+                                <input type="text" id="post-search" placeholder="Search caption or tags...">
+                            </div>
+                            <div class="sort-selector">
+                                <span class="sort-label">Sort by:</span>
+                                <select id="post-sort">
+                                    <option value="date-desc">Newest First</option>
+                                    <option value="reach-desc">Highest Reach</option>
+                                    <option value="engagement-desc">Engagement Rate</option>
+                                    <option value="likes-desc">Likes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="content-table" id="content-table">
+                            <thead>
+                                <tr>
+                                    <th>Post Details</th>
+                                    <th>Platform</th>
+                                    <th>Post Date</th>
+                                    <th class="text-right">Reach</th>
+                                    <th class="text-right">Likes</th>
+                                    <th class="text-right">Comments</th>
+                                    <th class="text-right">Engagement</th>
+                                    <th>Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody id="posts-tbody">
+                                <!-- Dynamically injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION 3: ROI CALCULATOR -->
+            <div id="tab-calculator" class="tab-pane">
+                <section class="calculator-grid-layout">
+                    <!-- Calculator Inputs -->
+                    <div class="glass-card calculator-input-card">
+                        <div class="card-header">
+                            <i data-lucide="sliders" class="header-icon text-cyan"></i>
+                            <div>
+                                <h3 class="card-title">Campaign Parameters</h3>
+                                <p class="card-subtitle">Adjust slider values to calculate estimated ROI metrics.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="calc-inputs-body">
+                            <!-- Input 1 -->
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label for="input-spend">Ad Campaign Spend</label>
+                                    <span class="slider-value" id="val-spend-display">$5,000</span>
+                                </div>
+                                <input type="range" id="input-spend" min="500" max="50000" step="500" value="5000" class="custom-slider">
+                                <div class="slider-limits">
+                                    <span>$500</span>
+                                    <span>$50,000</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 2 -->
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label for="input-ctr">Click-Through Rate (CTR)</label>
+                                    <span class="slider-value" id="val-ctr-display">2.5%</span>
+                                </div>
+                                <input type="range" id="input-ctr" min="0.1" max="10" step="0.1" value="2.5" class="custom-slider">
+                                <div class="slider-limits">
+                                    <span>0.1%</span>
+                                    <span>10%</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 3 -->
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label for="input-cvr">Conversion Rate (CVR)</label>
+                                    <span class="slider-value" id="val-cvr-display">3.0%</span>
+                                </div>
+                                <input type="range" id="input-cvr" min="0.1" max="15" step="0.1" value="3.0" class="custom-slider">
+                                <div class="slider-limits">
+                                    <span>0.1%</span>
+                                    <span>15%</span>
+                                </div>
+                            </div>
+
+                            <!-- Input 4 -->
+                            <div class="slider-group">
+                                <div class="slider-label-row">
+                                    <label for="input-val">Average Value per Sale</label>
+                                    <span class="slider-value" id="val-val-display">$150</span>
+                                </div>
+                                <input type="range" id="input-val" min="10" max="1000" step="10" value="150" class="custom-slider">
+                                <div class="slider-limits">
+                                    <span>$10</span>
+                                    <span>$1,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Outputs / Results Display -->
+                    <div class="glass-card calculator-output-card">
+                        <div class="card-header">
+                            <i data-lucide="trending-up" class="header-icon text-emerald"></i>
+                            <div>
+                                <h3 class="card-title">Projected Analytics Return</h3>
+                                <p class="card-subtitle">Live ROI and conversion values based on current parameters.</p>
+                            </div>
+                        </div>
+
+                        <div class="calc-outputs-body">
+                            <!-- Main Large Metric -->
+                            <div class="roi-result-large">
+                                <span class="roi-label">Return on Investment (ROI)</span>
+                                <h1 class="roi-value-large text-emerald" id="calc-roi-pct">+350%</h1>
+                            </div>
+
+                            <div class="roi-grid-metrics">
+                                <div class="roi-sub-metric">
+                                    <span class="roi-sub-label">Total Revenue</span>
+                                    <h3 class="roi-sub-val" id="calc-revenue">$22,500</h3>
+                                </div>
+                                <div class="roi-sub-metric">
+                                    <span class="roi-sub-label">Net Profit</span>
+                                    <h3 class="roi-sub-val" id="calc-profit">$17,500</h3>
+                                </div>
+                                <div class="roi-sub-metric">
+                                    <span class="roi-sub-label">Conversions / Sales</span>
+                                    <h3 class="roi-sub-val" id="calc-conversions">150</h3>
+                                </div>
+                                <div class="roi-sub-metric">
+                                    <span class="roi-sub-label">Customer Acquisition Cost (CAC)</span>
+                                    <h3 class="roi-sub-val" id="calc-cac">$33.33</h3>
+                                </div>
+                            </div>
+
+                            <div class="roi-funnel-visualization">
+                                <span class="funnel-label">Conversion Funnel Dropoff Estimator</span>
+                                <div class="funnel-container">
+                                    <div class="funnel-stage stage-reach" style="width: 100%;">
+                                        <span class="stage-name">Reach / Impressions (200,000)</span>
+                                    </div>
+                                    <div class="funnel-stage stage-clicks" style="width: 60%;" id="funnel-clicks-width">
+                                        <span class="stage-name" id="funnel-clicks-label">Clicks: 5,000</span>
+                                    </div>
+                                    <div class="funnel-stage stage-conversions" style="width: 25%;" id="funnel-conv-width">
+                                        <span class="stage-name" id="funnel-conv-label">Conversions: 150</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION 4: AUDIENCE DEMOGRAPHICS -->
+            <div id="tab-audience" class="tab-pane">
+                <section class="audience-demographics-grid">
+                    <!-- Demographic Bar Chart -->
+                    <div class="glass-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Age & Gender Distribution</h3>
+                            <p class="chart-subtitle">Followers age segments divided by gender identifiers</p>
+                        </div>
+                        <div class="chart-body">
+                            <canvas id="demographicsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Geo map list card -->
+                    <div class="glass-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Top Locations (Cities & Countries)</h3>
+                            <p class="chart-subtitle">Geographical concentration of your active subscriber base</p>
+                        </div>
+                        <div class="geo-body">
+                            <ul class="geo-list" id="geo-list-container">
+                                <!-- Injected dynamically based on selected platform -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Sync Notification Toast -->
+    <div id="sync-toast" class="sync-toast">
+        <i data-lucide="check-circle" class="toast-icon"></i>
+        <span class="toast-message">Data synchronized successfully!</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
